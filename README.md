@@ -30,5 +30,7 @@ docker stop smtp-relay && docker rm smtp-relay
 
  - FROMADDRESSMASQ
    - Set to `1` if you want the `From:` header to be rewritten to be the authenticated user. If this is set, the original `From:` address will be set to be the `Reply-To:` address.
+ - MASQEXCLUSIONS
+   - comma-separated list of message header matches to exclude messages from the "From" masquerading. Ignored if FROMADDRESSMASQ is not `1`
  - MYNETWORKS
    - Space-separated list of networks to allow relay from
