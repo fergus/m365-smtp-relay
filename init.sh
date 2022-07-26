@@ -34,3 +34,6 @@ else
 fi
 unset EMAIL
 unset EMAILPASS
+
+chown -R postfix.postfix /var/spool/postfix
+
