@@ -21,9 +21,15 @@ if [ ! -z "${EMAIL}" ] && [ ! -z "${EMAILPASS}" ]; then
     #rm /etc/postfix/sasl_passwd
     ## remove FROM header, set reply-to, and insert FROM to be auth username
     ## tricky because you can't match the same line twice
-    if [ ! -z "${FROMADDRESSMASQ}" ] && [ "${FROMADDRESSMASQ}" -eq 1 ] 
+    if [ ! -z "${FROMADDRESSMASQ}" ] && [ "${FROMADDRESSMASQ}" -eq 1 ]
     then
-        echo '/From:(.*)/ REPLACE Reply-To:${1}' > /etc/postfix/smtp_header_checks
+        exclusions=$(echo $MASQEXCLUSIONS | tr ',' '\n')
+        echo '' > /etc/postfix/smtp_header_checks
+        for addr in $exclusions
+        do
+                echo "/$addr/ PASS" >> /etc/postfix/smtp_header_checks
+        done
+        echo '/From:(.*)/ REPLACE Reply-To:${1}' >> /etc/postfix/smtp_header_checks
         echo "/To:(.*)/ PREPEND From: $EMAIL" >> /etc/postfix/smtp_header_checks
     else
         echo > /etc/postfix/smtp_header_checks
@@ -36,4 +42,3 @@ unset EMAIL
 unset EMAILPASS
 
 chown -R postfix.postfix /var/spool/postfix
-
