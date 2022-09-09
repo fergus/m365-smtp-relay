@@ -13,6 +13,12 @@ if [ ! -z "${MYNETWORKS}" ]; then
     postconf -e mynetworks="${MYNETWORKS}"
 fi
 
+# Set FROMADDRESSMASQ unless explicitly set to zero
+if [ ! -z "${FROMADDRESSMASQ}" ] && [ "${FROMADDRESSMASQ}" -ne 0 ]; then
+    echo 'setting $FROMADDRESSMASQ = 1'
+    FROMADDRESSMASQ=1
+fi
+
 # General the email/password hash and remove evidence.
 if [ ! -z "${EMAIL}" ] && [ ! -z "${EMAILPASS}" ]; then
 #    echo "[smtp.gmail.com]:587    ${EMAIL}:${EMAILPASS}" > /etc/postfix/sasl_passwd
