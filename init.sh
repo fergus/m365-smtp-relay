@@ -37,7 +37,7 @@ if [ ! -z "${EMAIL}" ] && [ ! -z "${EMAILPASS}" ]; then
         do
                 echo "/[Ff]rom=( *?)(<$addr.*?>)/ DUNNO no masquerade of this from address \${1}" >> /etc/postfix/smtp_header_checks
         done
-        echo "/From:(.*?>)/ PREPEND From: $EMAIL" >> /etc/postfix/smtp_header_checks
+        echo "/[Ff]rom=( *?)(<.*?>)/ REPLACE From: <$EMAIL>" >> /etc/postfix/smtp_header_checks
     else
         echo '' > /etc/postfix/header_checks
         echo '' > /etc/postfix/smtp_header_checks
