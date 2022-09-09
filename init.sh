@@ -30,12 +30,12 @@ if [ ! -z "${EMAIL}" ] && [ ! -z "${EMAILPASS}" ]; then
     if [ ! -z "${FROMADDRESSMASQ}" ] && [ "${FROMADDRESSMASQ}" -eq 1 ]
     then
         echo '' > /etc/postfix/header_checks
-        echo '/From:(.*)/ PREPEND Reply-To:${1}' >> /etc/postfix/header_checks
+        echo '/[Ff]rom:(.*)/ PREPEND Reply-To:${1}' >> /etc/postfix/header_checks
         exclusions=$(echo $MASQEXCLUSIONS | tr ',' '\n')
         echo '' > /etc/postfix/smtp_header_checks
         for addr in $exclusions
         do
-                echo "/From:(.*$addr.*>?)/ DUNNO no masquerade of this from address${1}" >> /etc/postfix/smtp_header_checks
+                echo "/from=( *?)(<$addr.*?>)/ DUNNO no masquerade of this from address${1}" >> /etc/postfix/smtp_header_checks
         done
         echo "/From:(.*?>)/ PREPEND From: $EMAIL" >> /etc/postfix/smtp_header_checks
     else
