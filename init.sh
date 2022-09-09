@@ -29,6 +29,10 @@ if [ ! -z "${EMAIL}" ] && [ ! -z "${EMAILPASS}" ]; then
     ## tricky because you can't match the same line twice
     if [ ! -z "${FROMADDRESSMASQ}" ] && [ "${FROMADDRESSMASQ}" -eq 1 ]
     then
+        # seems like we can't process with header_checks AND smtp_header_checks? 
+        # we may still have an issue with mail that comes in with the "To" field before the "From" field, and the only real way to solve that is:
+        # - header_check to prepend reply-to on the from field
+        # - smtp_header_check to DUNNO the from field for whitelist and REPLACE the from afterwards
         echo '' > /etc/postfix/smtp_header_checks
         exclusions=$(echo $MASQEXCLUSIONS | sed 's/\./\\./g' | tr ',' '\n')
         echo '' > /etc/postfix/header_checks
@@ -37,7 +41,7 @@ if [ ! -z "${EMAIL}" ] && [ ! -z "${EMAILPASS}" ]; then
                 echo "/[Ff]rom=( *?)(<$addr.*?>)/ PASS no masquerade of this from address \${1}" >> /etc/postfix/header_checks
         done
         echo '/[Ff]rom:(.*)/ REPLACE Reply-To:${1}' >> /etc/postfix/header_checks
-        echo "/[Tt]o=( *?)(<.*?>)/ PREPEND From: <$EMAIL>" >> /etc/postfix/smtp_header_checks
+        echo "/[Tt]o=( *?)(<.*?>)/ PREPEND From: $EMAIL" >> /etc/postfix/smtp_header_checks
     else
         echo '' > /etc/postfix/header_checks
         echo '' > /etc/postfix/smtp_header_checks
