@@ -14,7 +14,7 @@ if [ ! -z "${MYNETWORKS}" ]; then
 fi
 
 # Set FROMADDRESSMASQ unless explicitly set to zero
-if [ ! -z "${FROMADDRESSMASQ}" ] && [ "${FROMADDRESSMASQ}" -ne 0 ]; then
+if [ ! -z "${FROMADDRESSMASQ}" ] || [ "${FROMADDRESSMASQ}" -ne 0 ]; then
     echo 'setting $FROMADDRESSMASQ = 1'
     FROMADDRESSMASQ=1
 fi
