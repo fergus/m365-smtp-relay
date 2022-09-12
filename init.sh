@@ -34,11 +34,12 @@ if [ ! -z "${EMAIL}" ] && [ ! -z "${EMAILPASS}" ]; then
         echo '' > /etc/postfix/smtp_header_checks
         exclusions=$(echo $MASQEXCLUSIONS | sed 's/\./\\./g' | tr ',' '\n')
         echo '' > /etc/postfix/header_checks
+        # header_checks is one long line?! really strange but you must explicitly match the > for the from address or risk grabbing the whole header
         for addr in $exclusions
         do
-                echo "/[Ff]rom([=: ]*?$addr.*?[> $]*?)/ PASS no masquerade of this from address \${1}" >> /etc/postfix/header_checks
+                echo "/[Ff]rom[=:]([ <]*?$addr.*?[> $]*?)/ PASS no masquerade of this from address \${1}" >> /etc/postfix/header_checks
         done
-        echo '/[Ff]rom[=: ]*?(.*?[> $]*?)/ REPLACE Reply-To: ${1}' >> /etc/postfix/header_checks
+        echo '/[Ff]rom[=:]([ <]*?.*?[> $]*?)/ REPLACE Reply-To: ${1}' >> /etc/postfix/header_checks
         echo "/Reply-To(.*?)/ PREPEND From: $EMAIL" >> /etc/postfix/smtp_header_checks
     else
         echo '' > /etc/postfix/header_checks
