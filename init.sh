@@ -30,7 +30,7 @@ if [ ! -z "${EMAIL}" ] && [ ! -z "${EMAILPASS}" ]; then
     if [ ! -z "${FROMADDRESSMASQ}" ] && [ "${FROMADDRESSMASQ}" -eq 1 ]
     then
         # - header_check to REPLACE From with reply-to on the from field (unless we are hitting a whitelisted from address
-        # - smtp_header_check to prepend auth account as From address (doesn't find a reply-to 
+        # - smtp_header_check to prepend auth account as From address (doesn't find a reply-to means it does nothing, because it's an email whitelisted from masq)
         echo '' > /etc/postfix/smtp_header_checks
         exclusions=$(echo $MASQEXCLUSIONS | sed 's/\./\\./g' | tr ',' '\n')
         echo '' > /etc/postfix/header_checks
