@@ -38,7 +38,7 @@ if [ ! -z "${EMAIL}" ] && [ ! -z "${EMAILPASS}" ]; then
         do
                 echo "/[Ff]rom([=: ]*?$addr.*?[> $]*?)/ PASS no masquerade of this from address \${1}" >> /etc/postfix/header_checks
         done
-        echo '/[Ff]rom([=: ]*?.*?[> $]*?)/ REPLACE Reply-To${1}' >> /etc/postfix/header_checks
+        echo '/[Ff]rom[=: ]*?(.*?[> $]*?)/ REPLACE Reply-To: ${1}' >> /etc/postfix/header_checks
         echo "/Reply-To(.*?)/ PREPEND From: $EMAIL" >> /etc/postfix/smtp_header_checks
     else
         echo '' > /etc/postfix/header_checks
