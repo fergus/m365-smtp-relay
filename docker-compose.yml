@@ -1,11 +1,13 @@
-version: '2'
+# M365 SMTP Relay
+name: m365-relay
 services:
-  postfix-gmail-relay:
+  smtp:
     build: .
     environment:
-      SYSTEM_TIMEZONE: "America/Los_Angeles"
-      MYNETWORKS: "10.0.0.0/8 192.168.0.0/16 172.0.0.0/8"
-      EMAIL: "hello@beautif.ul"
-      EMAILPASS: "abcd1234"
+      SYSTEM_TIMEZONE: "Australia/Sydney"
+      MYNETWORKS: "10.0.0.0/8 127.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
+      EMAIL: "user@domain.com"
+      EMAILPASS: "the-password1234"
+    restart: unless-stopped
     ports:
-      - "9025:25"
+      - "8025:25"

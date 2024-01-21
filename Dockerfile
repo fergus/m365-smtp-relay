@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-MAINTAINER Lyle Scott, III "lyle@digitalfoo.net"
+LABEL Maintainer="Fergus Stevens <fstevens@intervl.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -18,7 +18,8 @@ apt-get -q -y install \
 # main.cf
 #postconf -e relayhost=[smtp.gmail.com]:587 && \
 postconf -e smtpd_banner="\$myhostname ESMTP" && \
-postconf -e relayhost=[SMTP.office365.com]:587 && \
+#postconf -e relayhost=[SMTP.office365.com]:587 && \
+postconf -e relayhost=[intervl-com.mail.protection.outlook.com]:25 && \
 postconf -e smtp_sasl_auth_enable=yes && \
 postconf -e smtp_sasl_password_maps=hash:/etc/postfix/sasl_passwd && \
 postconf -e smtp_sasl_security_options=noanonymous && \
@@ -27,6 +28,7 @@ postconf -e smtp_use_tls=yes && \
 postconf -e soft_bounce=yes && \
 postconf -e header_checks=regexp:/etc/postfix/header_checks && \
 postconf -e smtp_header_checks=regexp:/etc/postfix/smtp_header_checks && \
+postconf -e smtp_host_lookup=native,dns && \
 apt-get install -q -y \
     syslog-ng \
     syslog-ng-core && \
