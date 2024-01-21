@@ -1,5 +1,5 @@
 ```
-Docker Build/ Run SMTP (for use by Jenkins Master):
+Docker Build/ Run SMTP:
 
 # Clone
 git clone https://github.com/RaderSolutions/m365-smtp-relay.git
@@ -19,7 +19,7 @@ docker run --detach -i -t --restart unless-stopped \
 	o365-smtp-relay
 
 # To test
-sendemail -f jim@bbc.com -t jim@bbc.com -u subject -m "RelayedViaOffice365" -s localhost:25 -o tls=no
+sendemail -f jim@bbc.com -t jim@bbc.com -u subject -m "Relay via M365" -s localhost:25 -o tls=no
 
 # Stop (and remove otherwise the name is help on to)
 docker stop smtp-relay && docker rm smtp-relay
