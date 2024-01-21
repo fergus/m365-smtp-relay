@@ -2,7 +2,7 @@
 Docker Build/ Run SMTP:
 
 # Clone
-git clone https://github.com/RaderSolutions/m365-smtp-relay.git
+git clone https://github.com/fergus/m365-smtp-relay.git
 cd m365-smtp-relay/
 
 # Build docker container
