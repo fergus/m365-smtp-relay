@@ -2,8 +2,8 @@
 Docker Build/ Run SMTP (for use by Jenkins Master):
 
 # Clone
-git clone https://github.com/RaderSolutions/docker-o365-smtp-relay.git
-cd docker-o365-smtp-relay/
+git clone https://github.com/RaderSolutions/m365-smtp-relay.git
+cd m365-smtp-relay/
 
 # Build docker container
 docker build -t o365-smtp-relay .
